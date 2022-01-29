@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\RevenueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ Route::get('/', function() {
 
 Route::resource('revenue', RevenueController::class);
 Route::resource('expense', ExpenseController::class);
+
+Route::get('resume/{year}/{month}', [ResumeController::class, 'show']);
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
