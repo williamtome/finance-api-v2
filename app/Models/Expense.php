@@ -17,5 +17,6 @@ class Expense extends Model
         'description',
         'amount',
         'date',
+        'category_id',
     ];
 }
