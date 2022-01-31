@@ -15,6 +15,8 @@ class ExpenseController extends Controller
 
     public function store(Request $request): void
     {
+        $this->mergeCategory($request);
+
         $revenue = new Expense();
         $revenue->create($request->all());
     }
@@ -35,5 +37,14 @@ class ExpenseController extends Controller
     public function destroy($id): void
     {
         Expense::destroy($id);
+    }
+
+    private function mergeCategory(Request $request): void
+    {
+        if ($request->has('category')) {
+            $request->merge(['category_id' => $request->category]);
+        } else {
+            $request->merge(['category_id' => 8]);
+        }
     }
 }
