@@ -26,6 +26,9 @@ Route::resource('expense', ExpenseController::class);
 
 Route::get('resume/{year}/{month}', [ResumeController::class, 'show']);
 
+Route::get('revenue/{year}/{month}', [RevenueController::class, 'listPerMonth']);
+Route::get('expense/{year}/{month}', [ExpenseController::class, 'listPerMonth']);
+
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
