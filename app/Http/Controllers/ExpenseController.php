@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\ExpenseRepository;
+use App\Http\Requests\ResumeRequest;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -49,6 +50,27 @@ class ExpenseController extends Controller
     public function destroy($id): void
     {
         Expense::destroy($id);
+    }
+
+    public function listPerMonth(ResumeRequest $request): Response
+    {
+        $filterPatternDate = $this->filterDate(
+            $request->route('month'),
+            $request->route('year')
+        );
+
+        $expenses = $this->repository->getByDate($filterPatternDate);
+
+        return new Response([
+            'data' => $expenses
+        ]);
+    }
+
+    private function filterDate(string $month, string $year): string
+    {
+        $month = $month <= 9 ? 0 . $month : $month;
+
+        return $year . '-' . $month . '-%';
     }
 
     private function mergeCategory(Request $request): void

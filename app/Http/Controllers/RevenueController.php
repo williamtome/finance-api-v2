@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\RevenueRepository;
+use App\Http\Requests\ResumeRequest;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -47,5 +48,26 @@ class RevenueController extends Controller
     public function destroy($id): void
     {
         Revenue::destroy($id);
+    }
+
+    public function listPerMonth(ResumeRequest $request): Response
+    {
+        $filterPatternDate = $this->filterDate(
+            $request->route('month'),
+            $request->route('year')
+        );
+
+        $revenues = $this->repository->getByDate($filterPatternDate);
+
+        return new Response([
+            'data' => $revenues
+        ]);
+    }
+
+    private function filterDate(string $month, string $year): string
+    {
+        $month = $month <= 9 ? 0 . $month : $month;
+
+        return $year . '-' . $month . '-%';
     }
 }
