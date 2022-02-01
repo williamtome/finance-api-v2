@@ -9,21 +9,20 @@ use Illuminate\Http\Response;
 
 class ExpenseController extends Controller
 {
-    private $expenseRepository;
+    private $repository;
 
-    public function __construct(ExpenseRepository $expenseRepository)
+    public function __construct(ExpenseRepository $repository)
     {
-        $this->expenseRepository = $expenseRepository;
+        $this->repository = $repository;
     }
 
     public function index(Request $request): Response
     {
-        if ($request->has('descricao')) {
-            $revenues = $this->expenseRepository->getByDescription($request->descricao);
-            return new Response($revenues);
-        }
+        $expenses = $request->has('descricao')
+            ? $this->repository->getByDescription($request->descricao)
+            : $this->repository->get();
 
-        return new Response(Expense::all());
+        return new Response($expenses);
     }
 
     public function store(Request $request): void

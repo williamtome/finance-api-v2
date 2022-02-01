@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseRepository
 {
+    public function get()
+    {
+        return Expense::all();
+    }
+
     public function getByDate(string $date): Collection
     {
         return DB::table('expenses')

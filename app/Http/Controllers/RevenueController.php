@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\RevenueRepository;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RevenueController extends Controller
 {
+    private $repository;
+
+    public function __construct(RevenueRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function index(Request $request): Response
     {
-        if ($request->has('descricao')) {
-            $revenue = Revenue::where('description', $request->descricao)->first();
-            return new Response($revenue);
-        }
+        $revenues = $request->has('descricao')
+            ? $this->repository->getByDescription($request->descricao)
+            : $this->repository->get();
 
-        return new Response(Revenue::all());
+        return new Response($revenues);
     }
 
     public function store(Request $request): void
