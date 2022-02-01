@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\ExpenseRepository;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ExpenseController extends Controller
 {
-    public function index(): Response
+    private $expenseRepository;
+
+    public function __construct(ExpenseRepository $expenseRepository)
     {
+        $this->expenseRepository = $expenseRepository;
+    }
+
+    public function index(Request $request): Response
+    {
+        if ($request->has('descricao')) {
+            $revenues = $this->expenseRepository->getByDescription($request->descricao);
+            return new Response($revenues);
+        }
+
         return new Response(Expense::all());
     }
 
