@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\Revenue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
