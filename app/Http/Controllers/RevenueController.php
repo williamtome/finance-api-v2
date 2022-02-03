@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
 use App\Models\Revenue;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class RevenueController extends Controller
 {
@@ -17,13 +17,13 @@ class RevenueController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(Request $request): Response
+    public function index(Request $request): JsonResponse
     {
         $revenues = $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->get();
 
-        return new Response($revenues);
+        return new JsonResponse($revenues);
     }
 
     public function store(Request $request): void
@@ -32,11 +32,11 @@ class RevenueController extends Controller
         $revenue->create($request->all());
     }
 
-    public function show($id): Response
+    public function show($id): JsonResponse
     {
         $revenue = Revenue::findOrFail($id);
 
-        return new Response($revenue);
+        return new JsonResponse($revenue);
     }
 
     public function update(Request $request, $id): void
@@ -50,7 +50,7 @@ class RevenueController extends Controller
         Revenue::destroy($id);
     }
 
-    public function listPerMonth(ResumeRequest $request): Response
+    public function listPerMonth(ResumeRequest $request): JsonResponse
     {
         $filterPatternDate = $this->filterDate(
             $request->route('month'),
@@ -59,7 +59,7 @@ class RevenueController extends Controller
 
         $revenues = $this->repository->getByDate($filterPatternDate);
 
-        return new Response([
+        return new JsonResponse([
             'data' => $revenues
         ]);
     }

@@ -6,7 +6,7 @@ use App\Http\Repositories\ExpenseRepository;
 use App\Http\Requests\ResumeRequest;
 use App\Models\Expense;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class ExpenseController extends Controller
 {
@@ -17,13 +17,13 @@ class ExpenseController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(Request $request): Response
+    public function index(Request $request): JsonResponse
     {
         $expenses = $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->get();
 
-        return new Response($expenses);
+        return new JsonResponse($expenses);
     }
 
     public function store(Request $request): void
@@ -34,11 +34,11 @@ class ExpenseController extends Controller
         $revenue->create($request->all());
     }
 
-    public function show($id): Response
+    public function show($id): JsonResponse
     {
         $expense = Expense::findOrFail($id);
 
-        return new Response($expense);
+        return new JsonResponse($expense);
     }
 
     public function update(Request $request, $id): void
@@ -52,7 +52,7 @@ class ExpenseController extends Controller
         Expense::destroy($id);
     }
 
-    public function listPerMonth(ResumeRequest $request): Response
+    public function listPerMonth(ResumeRequest $request): JsonResponse
     {
         $filterPatternDate = $this->filterDate(
             $request->route('month'),
@@ -61,7 +61,7 @@ class ExpenseController extends Controller
 
         $expenses = $this->repository->getByDate($filterPatternDate);
 
-        return new Response([
+        return new JsonResponse([
             'data' => $expenses
         ]);
     }

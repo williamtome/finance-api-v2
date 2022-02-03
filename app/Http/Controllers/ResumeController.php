@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\ExpenseRepository;
 use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class ResumeController extends Controller
 {
@@ -21,7 +21,7 @@ class ResumeController extends Controller
         $this->expenseRepository = $expenseRepository;
     }
 
-    public function show(ResumeRequest $request)
+    public function show(ResumeRequest $request): JsonResponse
     {
         $year = $request->route('year');
         $month = $request->route('month');
@@ -35,7 +35,7 @@ class ResumeController extends Controller
         $totalOfExpenses = $expenses->sum('amount');
         $finalBalance = $totalOfRevenues - $totalOfExpenses;
 
-        return new Response([
+        return new JsonResponse([
             'year' => (int) $year,
             'month' => (int) $month,
             'total_revenues_month' => $totalOfRevenues,
