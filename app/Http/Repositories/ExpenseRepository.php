@@ -4,7 +4,6 @@ namespace App\Http\Repositories;
 
 use App\Models\Expense;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class ExpenseRepository
 {
@@ -15,8 +14,19 @@ class ExpenseRepository
 
     public function getByDate(string $date): Collection
     {
-        return DB::table('expenses')
-            ->where('date', 'like', $date)->get();
+        $expenses = Expense::with('category')
+            ->where('expenses.date', 'like', $date)
+            ->get();
+
+        return $expenses->each(function ($expense) {
+            return [
+                'id' => $expense->id,
+                'description' => $expense->description,
+                'amount' => (float) $expense->amount,
+                'date' => $expense->date,
+                'category' => $expense->category->name,
+            ];
+        });
     }
 
     public function getByDescription(string $description)
