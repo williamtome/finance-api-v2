@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\RevenueController;
@@ -17,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function() {
-    return "<h1>API de finanças pessoais</h1>";
+Route::prefix('auth')->group(function() {
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 Route::resource('revenue', RevenueController::class);
