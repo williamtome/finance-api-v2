@@ -27,12 +27,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', function (Request $request) {
         return $request->user();
     });
+
+    Route::resource('revenue', RevenueController::class);
+
+    Route::resource('expense', ExpenseController::class);
+
+    Route::get('resume/{year}/{month}', [ResumeController::class, 'show']);
+
+    Route::get('revenue/{year}/{month}', [RevenueController::class, 'listPerMonth']);
+    Route::get('expense/{year}/{month}', [ExpenseController::class, 'listPerMonth']);
 });
-
-Route::resource('revenue', RevenueController::class);
-Route::resource('expense', ExpenseController::class);
-
-Route::get('resume/{year}/{month}', [ResumeController::class, 'show']);
-
-Route::get('revenue/{year}/{month}', [RevenueController::class, 'listPerMonth']);
-Route::get('expense/{year}/{month}', [ExpenseController::class, 'listPerMonth']);
