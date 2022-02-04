@@ -23,6 +23,12 @@ Route::prefix('auth')->group(function() {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/me', function (Request $request) {
+        return $request->user();
+    });
+});
+
 Route::resource('revenue', RevenueController::class);
 Route::resource('expense', ExpenseController::class);
 
