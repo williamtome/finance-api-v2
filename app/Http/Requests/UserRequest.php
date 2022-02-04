@@ -23,9 +23,16 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = collect([
             'email' => 'required|email',
             'password' => 'required|string|min:8',
-        ];
+        ]);
+
+        if ($this->is('api/auth/register')) {
+            $rules->prepend('required|string|max:191', 'name');
+            $rules->put('password_confirmation', 'required|string|min:8|same:password');
+        }
+
+        return $rules->toArray();
     }
 }
