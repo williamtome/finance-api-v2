@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
 Route::resource('revenue', RevenueController::class);
@@ -29,7 +30,3 @@ Route::get('resume/{year}/{month}', [ResumeController::class, 'show']);
 
 Route::get('revenue/{year}/{month}', [RevenueController::class, 'listPerMonth']);
 Route::get('expense/{year}/{month}', [ExpenseController::class, 'listPerMonth']);
-
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
