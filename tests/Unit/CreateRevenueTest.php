@@ -19,11 +19,6 @@ class CreateRevenueTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_should_forbid_an_unauthenticated_user_to_create_a_revenue()
     {
         $data = [
