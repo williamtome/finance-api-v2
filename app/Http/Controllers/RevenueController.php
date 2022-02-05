@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
+use App\Http\Requests\RevenueRequest;
 use App\Models\Revenue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class RevenueController extends Controller
         return new JsonResponse($revenues);
     }
 
-    public function store(Request $request): void
+    public function store(RevenueRequest $request): void
     {
         $revenue = new Revenue();
         $revenue->create($request->all());
