@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class RevenueRequest extends FormRequest
 {
@@ -24,7 +25,9 @@ class RevenueRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required'
+            'description' => 'required|string|max:191',
+            'amount' => 'required|numeric',
+            'date' => 'required|date'
         ];
     }
 }
