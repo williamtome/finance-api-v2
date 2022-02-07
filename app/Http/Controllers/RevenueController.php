@@ -6,11 +6,14 @@ use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
 use App\Http\Requests\RevenueRequest;
 use App\Models\Revenue;
+use App\Traits\ApiResponser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RevenueController extends Controller
 {
+    use ApiResponser;
+
     private $repository;
 
     public function __construct(RevenueRepository $repository)
@@ -24,7 +27,9 @@ class RevenueController extends Controller
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->get();
 
-        return new JsonResponse($revenues);
+        return $revenues
+            ? $this->success($revenues)
+            : $this->error(400, 'Erro ao listar as receitas!');
     }
 
     public function store(RevenueRequest $request): void
@@ -37,7 +42,7 @@ class RevenueController extends Controller
     {
         $revenue = Revenue::findOrFail($id);
 
-        return new JsonResponse($revenue);
+        return $this->success($revenue);
     }
 
     public function update(Request $request, $id): void
@@ -60,9 +65,7 @@ class RevenueController extends Controller
 
         $revenues = $this->repository->getByDate($filterPatternDate);
 
-        return new JsonResponse([
-            'data' => $revenues
-        ]);
+        return $this->success($revenues);
     }
 
     private function filterDate(string $month, string $year): string
