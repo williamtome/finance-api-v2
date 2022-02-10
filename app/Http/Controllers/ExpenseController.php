@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\ExpenseRepository;
+use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\ResumeRequest;
 use App\Models\Expense;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class ExpenseController extends Controller
         return new JsonResponse($expenses);
     }
 
-    public function store(Request $request): void
+    public function store(ExpenseRequest $request): void
     {
         $this->mergeCategory($request);
 
