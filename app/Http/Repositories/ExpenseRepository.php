@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\Category;
 use App\Models\Expense;
 use Illuminate\Support\Collection;
 
@@ -27,6 +28,21 @@ class ExpenseRepository
                 'category' => $expense->category->name,
             ];
         });
+    }
+
+    public function getByDateAndCategory(string $date): array
+    {
+        $totalExpensesByCategories = Category::with(['expenses' => function ($query) use ($date) {
+            return $query->where('date', 'like', $date);
+        }])->get();
+
+        return $totalExpensesByCategories->map(function ($category) {
+            return [
+                'category' => $category->name,
+                'total' => $category->expenses->pluck('amount')->sum(),
+            ];
+        })->where('total', '>', 0)
+            ->toArray();
     }
 
     public function getByDescription(string $description)
