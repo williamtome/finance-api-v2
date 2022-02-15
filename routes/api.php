@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\ResumeController;
-use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\{
+    AuthController,
+    ExpenseController,
+    ResumeController,
+    RevenueController
+};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
