@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\ExpenseRepository;
 use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\ResumeRequest;
-use App\Models\Expense;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ExpenseController extends Controller
 {
+    use ApiResponser;
+
     private $repository;
 
     public function __construct(ExpenseRepository $repository)
@@ -24,33 +26,31 @@ class ExpenseController extends Controller
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->get();
 
-        return new JsonResponse($expenses);
+        return $this->success($expenses);
     }
 
     public function store(ExpenseRequest $request): void
     {
         $this->mergeCategory($request);
 
-        $revenue = new Expense();
-        $revenue->create($request->all());
+        $this->repository->create($request->all());
     }
 
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $expense = Expense::findOrFail($id);
+        $expense = $this->repository->find($id);
 
-        return new JsonResponse($expense);
+        return $this->success($expense);
     }
 
     public function update(Request $request, $id): void
     {
-        $expense = Expense::findOrFail($id);
-        $expense->update($request->all());
+        $this->repository->update($request->all(), $id);
     }
 
     public function destroy($id): void
     {
-        Expense::destroy($id);
+        $this->repository->delete($id);
     }
 
     public function listPerMonth(ResumeRequest $request): JsonResponse
@@ -62,7 +62,7 @@ class ExpenseController extends Controller
 
         $expenses = $this->repository->getByDate($filterPatternDate);
 
-        return new JsonResponse([
+        return $this->success([
             'data' => $expenses
         ]);
     }
@@ -76,10 +76,10 @@ class ExpenseController extends Controller
 
     private function mergeCategory(Request $request): void
     {
-        if ($request->has('category')) {
-            $request->merge(['category_id' => $request->category]);
-        } else {
-            $request->merge(['category_id' => 8]);
-        }
+        $request->merge([
+            'category_id' => $request->has('category')
+                ? $request->category 
+                : 8,
+        ]);
     }
 }
