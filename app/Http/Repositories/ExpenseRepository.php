@@ -13,6 +13,29 @@ class ExpenseRepository
         return Expense::all();
     }
 
+    public function create(array $attributes): void
+    {        
+        $revenue = new Expense();
+        $revenue->create($attributes);
+    }
+
+    public function find(int $id): Expense
+    {
+        return Expense::findOrFail($id);
+    }
+
+    public function update(array $attributes, int $id): void
+    {
+        $expense = Expense::findOrFail($id);
+        
+        $expense->update($attributes);
+    }
+
+    public function delete(int $id): void
+    {
+        Expense::destroy($id);
+    }
+
     public function getByDate(string $date): Collection
     {
         $expenses = Expense::with('category')
