@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
 use App\Http\Requests\RevenueRequest;
-use App\Models\Revenue;
-use App\Traits\ApiResponser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RevenueController extends Controller
 {
-    use ApiResponser;
-
     private $repository;
 
     public function __construct(RevenueRepository $repository)
@@ -25,7 +21,7 @@ class RevenueController extends Controller
     {
         $revenues = $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
-            : $this->repository->get();
+            : $this->repository->getAll();
 
         return $revenues
             ? $this->success($revenues)
@@ -34,26 +30,22 @@ class RevenueController extends Controller
 
     public function store(RevenueRequest $request): void
     {
-        $revenue = new Revenue();
-        $revenue->create($request->all());
+        $this->repository->create($request->all());
     }
 
     public function show($id): JsonResponse
     {
-        $revenue = Revenue::findOrFail($id);
-
-        return $this->success($revenue);
+        return $this->repository->show($id);
     }
 
-    public function update(Request $request, $id): void
+    public function update(Request $request, int $id): void
     {
-        $revenue = Revenue::findOrFail($id);
-        $revenue->update($request->all());
+        $this->repository->update($request->all(), $id);
     }
 
-    public function destroy($id): void
+    public function destroy(int $id): void
     {
-        Revenue::destroy($id);
+        $this->repository->delete($id);
     }
 
     public function listPerMonth(ResumeRequest $request): JsonResponse
