@@ -24,7 +24,7 @@ class ExpenseController extends Controller
     {
         $expenses = $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
-            : $this->repository->get();
+            : $this->repository->getAll();
 
         return $this->success($expenses);
     }
@@ -78,7 +78,7 @@ class ExpenseController extends Controller
     {
         $request->merge([
             'category_id' => $request->has('category')
-                ? $request->category 
+                ? $request->category
                 : 8,
         ]);
     }

@@ -8,13 +8,13 @@ use Illuminate\Support\Collection;
 
 class ExpenseRepository
 {
-    public function get()
+    public function getAll()
     {
         return Expense::all();
     }
 
     public function create(array $attributes): void
-    {        
+    {
         $revenue = new Expense();
         $revenue->create($attributes);
     }
@@ -27,7 +27,7 @@ class ExpenseRepository
     public function update(array $attributes, int $id): void
     {
         $expense = Expense::findOrFail($id);
-        
+
         $expense->update($attributes);
     }
 
