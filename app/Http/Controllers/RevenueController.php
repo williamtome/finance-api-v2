@@ -19,13 +19,10 @@ class RevenueController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $revenues = $request->has('descricao')
+        return $request->filled('descricao')
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->getAll();
 
-        return $revenues
-            ? $this->success($revenues)
-            : $this->error(400, 'Erro ao listar as receitas!');
     }
 
     public function store(RevenueRequest $request): void
@@ -55,9 +52,7 @@ class RevenueController extends Controller
             $request->route('year')
         );
 
-        $revenues = $this->repository->getByDate($filterPatternDate);
-
-        return $this->success($revenues);
+        return $this->repository->getByDate($filterPatternDate);
     }
 
     private function filterDate(string $month, string $year): string
