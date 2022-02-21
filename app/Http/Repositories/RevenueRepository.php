@@ -51,6 +51,10 @@ class RevenueRepository
 
     public function getByDescription(string $descricao): JsonResponse
     {
-        return Revenue::where('description', $descricao)->get();
+        $revenues = Revenue::where('description', 'like', '%' . strtolower($descricao) . '%')->get();
+
+        return $revenues
+            ? $this->success($revenues)
+            : $this->error(400, 'Erro ao listar as receitas!');
     }
 }
