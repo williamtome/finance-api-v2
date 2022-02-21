@@ -4,19 +4,19 @@ namespace App\Http\Repositories;
 
 use App\Models\Revenue;
 use App\Traits\ApiResponser;
-use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 class RevenueRepository
 {
     use ApiResponser;
 
-    public function getAll()
+    public function getAll(): JsonResponse
     {
         return $this->success(Revenue::all());
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes): void
     {
         Revenue::create($attributes);
     }
@@ -28,19 +28,19 @@ class RevenueRepository
         return $this->success($revenue);
     }
 
-    public function update(array $attributes, int $id)
+    public function update(array $attributes, int $id): void
     {
         $revenue = Revenue::findOrFail($id);
 
         $revenue->update($attributes);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         Revenue::destroy($id);
     }
 
-    public function getByDate(string $date): Collection
+    public function getByDate(string $date): JsonResponse
     {
         $revenues = DB::table('revenues')
             ->where('date', 'like', $date)
@@ -49,7 +49,7 @@ class RevenueRepository
         return $this->success($revenues);
     }
 
-    public function getByDescription(string $descricao)
+    public function getByDescription(string $descricao): JsonResponse
     {
         return Revenue::where('description', $descricao)->get();
     }
