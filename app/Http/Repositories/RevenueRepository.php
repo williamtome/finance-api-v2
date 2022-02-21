@@ -13,7 +13,7 @@ class RevenueRepository
 
     public function getAll()
     {
-        return Revenue::all();
+        return $this->success(Revenue::all());
     }
 
     public function create(array $attributes)
@@ -42,8 +42,11 @@ class RevenueRepository
 
     public function getByDate(string $date): Collection
     {
-        return DB::table('revenues')
-            ->where('date', 'like', $date)->get();
+        $revenues = DB::table('revenues')
+            ->where('date', 'like', $date)
+            ->get();
+
+        return $this->success($revenues);
     }
 
     public function getByDescription(string $descricao)
