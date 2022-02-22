@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Str;
 
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
 return [
 
     /*
@@ -15,7 +17,9 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('APP_ENV') === 'production'
+        ? env('DB_CONNECTION', 'mysql_heroku')
+        : env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -89,6 +93,17 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
+        ],
+
+        'mysql_heroku' => [
+            'driver' => 'mysql',
+            'host' => $url['host'],
+            'database' => substr($url['path'], 1),
+            'username' => $url['user'],
+            'password' => $url['pass'],
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
         ],
 
     ],
