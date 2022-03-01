@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CreateRevenueTest extends TestCase
+class RevenueTest extends TestCase
 {
     use RefreshDatabase;
 
