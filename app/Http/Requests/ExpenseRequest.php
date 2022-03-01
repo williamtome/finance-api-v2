@@ -43,9 +43,13 @@ class ExpenseRequest extends FormRequest
         ];
     }
 
-    private function categoryIsValid(): \Closure
+    private function categoryIsValid()
     {
-        $categoryExist = $this->categoryRepository->find($this->category);
+        if (!$this->category) {
+            return;
+        }
+
+        $categoryExist = $this->categoryRepository->find($this->category);;
 
         return function ($attribute, $value, $fail) use ($categoryExist) {
             if (!$categoryExist) {
