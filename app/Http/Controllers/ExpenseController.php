@@ -83,7 +83,7 @@ class ExpenseController extends Controller
         $otherCategory = $this->categoryRepository->getLastCategory();
 
         $request->merge([
-            'category_id' => $request->has('category')
+            'category_id' => $request->filled('category')
                 ? $request->category
                 : $otherCategory->id,
         ]);
