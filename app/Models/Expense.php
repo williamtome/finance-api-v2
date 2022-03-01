@@ -13,6 +13,8 @@ class Expense extends Model
 
     public $timestamps = false;
 
+    protected $hidden = ['category_id'];
+
     protected $fillable = [
         'description',
         'amount',
