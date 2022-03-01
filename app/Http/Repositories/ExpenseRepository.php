@@ -10,7 +10,7 @@ class ExpenseRepository
 {
     public function getAll()
     {
-        return Expense::all();
+        return Expense::with('category')->get();
     }
 
     public function create(array $attributes): void
@@ -21,7 +21,9 @@ class ExpenseRepository
 
     public function find(int $id): Expense
     {
-        return Expense::findOrFail($id);
+        $expense = Expense::findOrFail($id);
+
+        return $expense->with('category')->first();
     }
 
     public function update(array $attributes, int $id): void
