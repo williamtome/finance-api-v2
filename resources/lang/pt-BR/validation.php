@@ -137,6 +137,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'category' => [
+            'invalid' => 'Categoria inválida!',
+        ],
     ],
 
     /*
