@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\ExpenseRepository;
 use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\ResumeRequest;
@@ -15,9 +16,12 @@ class ExpenseController extends Controller
 
     private $repository;
 
-    public function __construct(ExpenseRepository $repository)
-    {
+    public function __construct(
+        ExpenseRepository $repository,
+        CategoryRepository $categoryRepository
+    ) {
         $this->repository = $repository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index(Request $request): JsonResponse
@@ -76,10 +80,12 @@ class ExpenseController extends Controller
 
     private function mergeCategory(Request $request): void
     {
+        $otherCategory = $this->categoryRepository->getLastCategory();
+
         $request->merge([
             'category_id' => $request->has('category')
                 ? $request->category
-                : 8,
+                : $otherCategory->id,
         ]);
     }
 }
