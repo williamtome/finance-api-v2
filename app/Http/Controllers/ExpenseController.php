@@ -66,9 +66,7 @@ class ExpenseController extends Controller
 
         $expenses = $this->repository->getByDate($filterPatternDate);
 
-        return $this->success([
-            'data' => $expenses
-        ]);
+        return $this->success($expenses);
     }
 
     private function filterDate(string $month, string $year): string
