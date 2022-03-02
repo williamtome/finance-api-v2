@@ -3,14 +3,11 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RevenueTest extends TestCase
 {
-    use RefreshDatabase;
-
     private array $header;
 
     protected function setUp(): void
