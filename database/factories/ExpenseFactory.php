@@ -22,9 +22,9 @@ class ExpenseFactory extends Factory
     public function definition()
     {
         return [
-            'description' => $this->faker->sentence(),
-            'amount' => $this->faker->randomFloat(),
-            'date' => $this->faker->date(),
+            'description' => 'Expense test',
+            'amount' => 99.95,
+            'date' => "2022-01-01",
             'category_id' => 8,
         ];
     }
