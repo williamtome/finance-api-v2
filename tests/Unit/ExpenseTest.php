@@ -16,7 +16,7 @@ class ExpenseTest extends TestCase
         parent::setUp();
     }
 
-    public function testShouldForbidAnUnauthenticatedUserToCreateAExpense()
+    public function testShouldForbidAnUnauthenticatedUserToCreateAnExpense()
     {
         $data = [
             'description' => 'expense test',
@@ -29,7 +29,7 @@ class ExpenseTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    public function testShouldAllowAnAuthenticatedUserToCreateAExpense()
+    public function testShouldAllowAnAuthenticatedUserToCreateAnExpense()
     {
         $this->seed();
 
@@ -47,7 +47,7 @@ class ExpenseTest extends TestCase
         $response->assertOk();
     }
 
-    public function testShouldCreateAExpenseWithAValidCategory()
+    public function testShouldCreateAnExpenseWithAValidCategory()
     {
         $this->seed();
 
@@ -66,7 +66,7 @@ class ExpenseTest extends TestCase
         $response->assertOk();
     }
 
-    public function testShouldFailValidationWhenCreatingAExpenseWithAInvalidCategory()
+    public function testShouldFailValidationWhenCreatingAnExpenseWithAInvalidCategory()
     {
         $this->seed();
 
@@ -114,7 +114,6 @@ class ExpenseTest extends TestCase
     public function testShouldShowAllTheExpensesCreated()
     {
         $user = User::factory()->createOne();
-
         Expense::factory()->count(3)->create();
 
         $response = $this->actingAs($user)
@@ -145,7 +144,7 @@ class ExpenseTest extends TestCase
         $this->assertEquals('8', $expense->category_id);
     }
 
-    public function testShouldDeleteAExpense()
+    public function testShouldDeleteAnExpense()
     {
         $this->seed();
 
