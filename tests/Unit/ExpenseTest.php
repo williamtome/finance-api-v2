@@ -123,7 +123,25 @@ class ExpenseTest extends TestCase
         $this->assertDatabaseCount('expenses', 3);
     }
 
-    public function testShouldUpdateAExpense()
+    public function testShouldShowAnExpenseCreated()
+    {
+        $user = User::factory()->createOne();
+        $expense = Expense::factory()->createOne();
+
+        $response = $this->actingAs($user)
+            ->get(
+                route('expense.show', $expense),
+                $this->header
+            );
+
+        $response->assertOk();
+        $this->assertEquals('Expense test', $expense->description);
+        $this->assertEquals('99.95', $expense->amount);
+        $this->assertEquals('2022-01-01', $expense->date);
+        $this->assertEquals('8', $expense->category_id);
+    }
+
+    public function testShouldUpdateAnExpense()
     {
         $this->seed();
 
