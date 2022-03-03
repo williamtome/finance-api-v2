@@ -113,12 +113,15 @@ class ExpenseTest extends TestCase
 
     public function testShouldShowAllTheExpensesCreated()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
+
+        Expense::factory()->count(3)->create();
 
         $response = $this->actingAs($user)
-            ->get('api/expense', $this->header);
+            ->get(route('expense.index'), $this->header);
 
         $response->assertOk();
+        $this->assertDatabaseCount('expenses', 3);
     }
 
     public function testShouldUpdateAExpense()
