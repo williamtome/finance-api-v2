@@ -141,4 +141,20 @@ class ExpenseTest extends TestCase
         $this->assertEquals('2022-03-01', $expense->date);
         $this->assertEquals('8', $expense->category_id);
     }
+
+    public function testShouldDeleteAExpense()
+    {
+        $this->seed();
+
+        $user = User::factory()->createOne();
+        $expense = Expense::factory()->createOne();
+
+        $this->actingAs($user)->delete(
+            route('expense.destroy', $expense)
+        );
+
+        $this->assertDatabaseMissing('expenses', [
+            'id' => $expense->id,
+        ]);
+    }
 }
