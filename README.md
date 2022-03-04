@@ -7,4 +7,3 @@ This is an API using to menager your personal finance.
 - **PHP 8**
 - **Laravel 8**
 - **MySQL 8**
-- 
