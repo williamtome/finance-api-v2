@@ -1,6 +1,4 @@
-<p align="center">
-    <a href="#" target="_blank"><img src="https://github.com/williamtome/finance-api-v2/blob/master/thumb-finance-api.png?raw=true"></a>
-</p>
+<p align="center"><a href="#" target="_blank"><img src="https://github.com/williamtome/finance-api-v2/blob/master/thumb-finance-api.png"></a></p>
 
 ## Techs
 
