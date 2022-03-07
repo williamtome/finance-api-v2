@@ -14,6 +14,7 @@ In this project was created an API with propose of manager the personal finances
 
 ## ✔️ Techs
 
+- **Docker**
 - **PHP 8**
 - **Laravel 8**
 - **Composer 2**
@@ -22,3 +23,23 @@ In this project was created an API with propose of manager the personal finances
 - **PHP Best practices (PSR's and Clean Code)**
 
 ## 🔨 Instalation and configuration
+
+1) Clone this repository and after move to the folder:
+  
+`git clone https://github.com/williamtome/finance-api-v2.git`
+
+`cd finance-api-v2`
+
+2) Get up the environment (obs.: you need the Docker installed in your operational system):
+
+`vendor/bin/sail up -d`
+
+3) Install the project and your dependencies:
+
+`vendor/bin/sail composer install`
+
+4) Copy `.env.example`, paste this file in root folder of project and rename file to `.env`
+
+5) Generate project key:
+
+`vendor/bin/sail artisan key:generate`
