@@ -6,13 +6,13 @@ In this project was created an API with propose of manager the personal finances
 
 ## Project features
 
-- Funcionalidade 1 - Cadastro de receitas: 
-- Funcionalidade 2 - Cadastro de despesas:
-- Funcionalidade 3 - Relatório de receitas por mês: 
-- Funcionalidade 4 - Relatório de despesas por mês: 
-- Funcionalidade 5 - Resumo total do mẽs: 
+Here is the Trello boards with the features implemented:
 
-## ✔️ Techs
+- [Board Sprint 1](https://trello.com/b/PGrRJkUx/challenge-backend-1)
+- [Board Sprint 2](https://trello.com/b/NmrQ49bM/challenge-backend-2)
+- [Board Sprint 3](https://trello.com/b/I5RRBmkT/challenge-backend-3)
+
+## ✔️ Techs and Tools
 
 - **Docker**
 - **PHP 8**
