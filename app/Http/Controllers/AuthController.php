@@ -5,29 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Traits\ApiResponser;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     use ApiResponser;
 
-    public function login(UserRequest $request)
-    {
-        $credentials = [
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ];
-
-        if (!Auth::attempt($credentials)) {
-            return $this->error(401, 'As credenciais estão incorretas.');
-        }
-
-        return $this->success([
-            'token' => auth()->user()->createToken('API Token')->plainTextToken
-        ]);
-    }
-
-    public function register(UserRequest $request)
+    public function register(UserRequest $request): JsonResponse
     {
         $user = User::create([
             'name' => $request->name,
