@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ExpenseRequest extends FormRequest
 {
+    private CategoryRepository $categoryRepository;
+
     public function __construct(CategoryRepository $categoryRepository, array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
     {
         $this->categoryRepository = $categoryRepository;
