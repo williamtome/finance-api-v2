@@ -47,7 +47,7 @@ class ExpenseController extends Controller
         return $this->success($expense);
     }
 
-    public function update(Request $request, $id): void
+    public function update(ExpenseRequest $request, $id): void
     {
         $this->repository->update($request->all(), $id);
     }
