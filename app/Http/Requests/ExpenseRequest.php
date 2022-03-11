@@ -30,7 +30,9 @@ class ExpenseRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $sometimes = 'sometimes|filled';
+
+        $data = [
             'description' => 'required|string|max:191',
             'amount' => 'required|numeric',
             'date' => 'required|date',
@@ -41,6 +43,14 @@ class ExpenseRequest extends FormRequest
                 $this->categoryIsValid(),
             ],
         ];
+
+        if ($this->method() == 'PUT') {
+            $data['description'] = $sometimes . '|string|max:191';
+            $data['amount'] = $sometimes . '|numeric';
+            $data['date'] = $sometimes . '|date';
+        }
+
+        return $data;
     }
 
     private function categoryIsValid()
