@@ -17,14 +17,14 @@ class ExpenseRequestTest extends TestCase
         parent::setUp();
     }
 
-    public function testShouldNotAuthorizeRequestIfTheUserIsNotLoggedIn()
+    public function test_should_authorize_request_if_the_user_is_not_logged_in()
     {
         Auth::shouldReceive('check')->once()->andReturnFalse();
 
         $this->assertFalse($this->request->authorize());
     }
 
-    public function testShouldAuthorizeRequestIfTheUserIsLoggedIn()
+    public function test_should_authorize_request_if_the_user_is_logged_in()
     {
         Auth::shouldReceive('check')->once()->andReturnTrue();
 
