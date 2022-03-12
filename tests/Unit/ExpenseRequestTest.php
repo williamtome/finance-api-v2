@@ -85,4 +85,22 @@ class ExpenseRequestTest extends TestCase
         $this->assertFalse($validator->passes());
         $this->assertEmpty($payload['amount']);
     }
+
+    public function test_should_fail_validation_if_date_field_is_empty()
+    {
+        $this->request->headers->set(
+            'Accept', 'application/json'
+        );
+
+        $payload = [
+            'description' => 'Bolo de chocolate',
+            'amount' => 5.59,
+            'date' => '',
+        ];
+
+        $validator = Validator::make($payload, $this->request->rules());
+
+        $this->assertFalse($validator->passes());
+        $this->assertEmpty($payload['date']);
+    }
 }
