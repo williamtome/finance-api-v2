@@ -66,7 +66,7 @@ class ExpenseTest extends TestCase
         $response->assertOk();
     }
 
-    public function testShouldFailValidationWhenCreatingAnExpenseWithAInvalidCategory()
+    public function testShouldFailValidationWhenCreatingAnExpenseWithAnInvalidCategory()
     {
         $this->seed();
 
