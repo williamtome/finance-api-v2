@@ -36,7 +36,7 @@ class ExpenseRequestTest extends TestCase
     {
         $rules = [
             'description' => 'required|string|max:191',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|min:1',
             'date' => 'required|date',
             'category' => [
                 'sometimes',
