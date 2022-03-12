@@ -4,7 +4,8 @@ namespace Tests\Unit;
 
 use App\Http\Requests\ExpenseRequest;
 use Illuminate\Support\Facades\Auth;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Support\Facades\Validator;
+use Tests\TestCase;
 
 class ExpenseRequestTest extends TestCase
 {
@@ -46,5 +47,24 @@ class ExpenseRequestTest extends TestCase
         ];
 
         $this->assertEquals($rules, $this->request->rules());
+    }
+
+    public function test_should_fail_validation_if_description_is_empty()
+    {
+        $this->request->headers->set(
+            'Accept',
+            'application/json'
+        );
+
+        $payload = [
+            'description' => '',
+            'amount' => 10,
+            'date' => '2022-01-02',
+        ];
+
+        $validator = Validator::make($payload, $this->request->rules());
+
+        $this->assertFalse($validator->passes());
+        $this->assertEmpty($payload['description']);
     }
 }
