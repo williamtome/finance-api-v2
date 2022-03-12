@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Repositories\CategoryRepository;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,7 +54,8 @@ class ExpenseRequest extends FormRequest
             return;
         }
 
-        $categoryExist = $this->categoryRepository->find($this->category);;
+        // criar um teste validando isso!
+        $categoryExist = Category::find($this->category);
 
         return function ($attribute, $value, $fail) use ($categoryExist) {
             if (!$categoryExist) {
