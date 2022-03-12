@@ -4,17 +4,10 @@ namespace App\Http\Requests;
 
 use App\Http\Repositories\CategoryRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseRequest extends FormRequest
 {
-    private CategoryRepository $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepository, array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
-    {
-        $this->categoryRepository = $categoryRepository;
-        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -22,7 +15,7 @@ class ExpenseRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     /**
