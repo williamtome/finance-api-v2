@@ -76,7 +76,7 @@ class ExpenseTest extends TestCase
             'description' => 'expense test 3',
             'amount' => 30,
             'date' => '2022-03-01',
-            'category' => 1651651,
+            'category' => 95,
         ];
 
         $response = $this->actingAs($user)
