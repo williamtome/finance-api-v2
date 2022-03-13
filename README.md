@@ -45,3 +45,10 @@ vendor/bin/sail composer install
 ```
 vendor/bin/sail artisan key:generate
 ```
+
+## Usage
+
+Endpoint to use the API:
+```
+https://quiet-ocean-25469.herokuapp.com/
+```
