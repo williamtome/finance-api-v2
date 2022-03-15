@@ -2,7 +2,7 @@
 
 # Project summary
 
-In this project was created an API with propose of manager the personal finances of the users using the programming language PHP and Laravel framework to build this API. It's working progress, but you can already to use for tests.
+In this project was created a REST API with propose of manager the personal finances of the users using the programming language PHP and Laravel framework to build this API. It's working progress, but you can already to use for tests.
 
 ## Project features
 
@@ -52,3 +52,4 @@ Endpoint to use the API:
 ```
 https://quiet-ocean-25469.herokuapp.com/
 ```
+* You can consume this API with the REST HTTP Client as [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/) if you don't have a front-end application.
