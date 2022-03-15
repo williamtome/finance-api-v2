@@ -103,4 +103,22 @@ class ExpenseRequestTest extends TestCase
         $this->assertFalse($validator->passes());
         $this->assertEmpty($payload['date']);
     }
+
+    public function test_should_fail_validation_if_date_is_incorrect_format()
+    {
+        $this->request->headers->set(
+            'Accept', 'application/json'
+        );
+
+        $payload = [
+            'description' => 'Torta de bolacha 200gr',
+            'amount' => 12.75,
+            'date' => '12/03/2022',
+        ];
+
+        $validator = Validator::make($payload, $this->request->rules());
+
+        $this->assertFalse($validator->passes());
+        $this->assertStringNotMatchesFormat('Y-m-d', $payload['date']);
+    }
 }
