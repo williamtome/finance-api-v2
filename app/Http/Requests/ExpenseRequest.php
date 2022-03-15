@@ -30,7 +30,7 @@ class ExpenseRequest extends FormRequest
         $data = [
             'description' => 'required|string|max:191',
             'amount' => 'required|numeric|min:1',
-            'date' => 'required|date',
+            'date' => 'required|date|date_format:Y-m-d',
             'category' => [
                 'sometimes',
                 'filled',
