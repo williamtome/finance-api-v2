@@ -86,6 +86,24 @@ class ExpenseRequestTest extends TestCase
         $this->assertEmpty($payload['amount']);
     }
 
+    public function test_should_fail_validation_if_amount_field_is_not_numeric()
+    {
+        $this->request->headers->set(
+            'Accept', 'application/json'
+        );
+
+        $payload = [
+            'description' => 'Bolo de chocolate',
+            'amount' => 'abc',
+            'date' => '2022-03-03',
+        ];
+
+        $validator = Validator::make($payload, $this->request->rules());
+
+        $this->assertFalse($validator->passes());
+        $this->assertIsNotNumeric($payload['amount']);
+    }
+
     public function test_should_fail_validation_if_date_field_is_empty()
     {
         $this->request->headers->set(
