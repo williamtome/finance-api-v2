@@ -41,8 +41,8 @@ class ExpenseRequest extends FormRequest
 
         if ($this->method() == 'PUT') {
             $data['description'] = $sometimes . '|string|max:191';
-            $data['amount'] = $sometimes . '|numeric';
-            $data['date'] = $sometimes . '|date';
+            $data['amount'] = $sometimes . '|numeric|min:1';
+            $data['date'] = $sometimes . '|date|date_format:Y-m-d';
         }
 
         return $data;
