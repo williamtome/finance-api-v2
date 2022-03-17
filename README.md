@@ -53,3 +53,15 @@ Endpoint to use the API:
 https://quiet-ocean-25469.herokuapp.com/
 ```
 * You can consume this API with the REST HTTP Client as [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/) if you don't have a front-end application.
+
+### Endpoints
+
+* Expenses
+
+| Verb | Path | Reason |
+|------|------|--------|
+| GET | `/expense` | Show all the expenses |
+| POST | `/expense` | Create the expense |
+| GET | `/expense/{id}` | Show the specific expense |
+| PUT | `/expense/{id}` | Update an expense |
+| DELETE | `/expense/{id}` | Delete the expense |
