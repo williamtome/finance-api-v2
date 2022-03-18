@@ -47,6 +47,7 @@ class ExpenseRequestTest extends TestCase
         ];
 
         $this->assertEquals($rules, $this->request->rules());
+        $this->assertCount(4, $this->request->rules());
     }
 
     public function test_should_fail_validation_if_description_is_empty()
