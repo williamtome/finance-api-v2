@@ -56,6 +56,17 @@ https://quiet-ocean-25469.herokuapp.com/
 
 ### Endpoints
 
+* Revenues
+
+| Verb | Path | Reason |
+|------|------|--------|
+| GET | `/revenue` | Show all the revenues |
+| GET | `/revenue?descricao=xpto` | Show any revenue with a description |
+| POST | `/revenue` | Create the revenue |
+| GET | `/revenue/{id}` | Show the specific revenue |
+| PUT | `/revenue/{id}` | Update an revenue |
+| DELETE | `/revenue/{id}` | Delete the revenue |
+
 * Expenses
 
 | Verb | Path | Reason |
