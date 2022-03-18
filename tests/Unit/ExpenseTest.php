@@ -16,7 +16,7 @@ class ExpenseTest extends TestCase
         parent::setUp();
     }
 
-    public function testShouldForbidAnUnauthenticatedUserToCreateAnExpense()
+    public function test_should_forbid_an_unauthenticated_user_to_create_an_expense()
     {
         $data = [
             'description' => 'expense test',
@@ -29,7 +29,7 @@ class ExpenseTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    public function testShouldAllowAnAuthenticatedUserToCreateAnExpense()
+    public function test_should_allow_an_authenticated_user_to_create_an_expense()
     {
         $this->seed();
 
@@ -47,7 +47,7 @@ class ExpenseTest extends TestCase
         $response->assertOk();
     }
 
-    public function testShouldCreateAnExpenseWithAValidCategory()
+    public function test_should_create_an_expense_with_a_valid_category()
     {
         $this->seed();
 
@@ -66,7 +66,7 @@ class ExpenseTest extends TestCase
         $response->assertOk();
     }
 
-    public function testShouldFailValidationWhenCreatingAnExpenseWithAnInvalidCategory()
+    public function test_should_fail_validation_when_creating_an_expense_with_an_invalid_category()
     {
         $this->seed();
 
@@ -85,7 +85,7 @@ class ExpenseTest extends TestCase
         $response->assertUnprocessable();
     }
 
-    public function testShouldCheckIfTheExpenseWasSavedInDatabaseSucessfully()
+    public function test_should_check_if_the_expense_was_saved_in_database_sucessfully()
     {
         $this->seed();
 
@@ -111,7 +111,7 @@ class ExpenseTest extends TestCase
         ]);
     }
 
-    public function testShouldShowAllTheExpensesCreated()
+    public function test_should_show_all_the_expenses_created()
     {
         $user = User::factory()->createOne();
         Expense::factory()->count(3)->create();
@@ -123,7 +123,7 @@ class ExpenseTest extends TestCase
         $this->assertDatabaseCount('expenses', 3);
     }
 
-    public function testShouldShowAnExpenseCreated()
+    public function test_should_show_an_expense_created()
     {
         $user = User::factory()->createOne();
         $expense = Expense::factory()->createOne();
@@ -141,7 +141,7 @@ class ExpenseTest extends TestCase
         $this->assertEquals('8', $expense->category_id);
     }
 
-    public function testShouldUpdateAnExpense()
+    public function test_should_update_an_expense()
     {
         $this->seed();
 
@@ -162,7 +162,7 @@ class ExpenseTest extends TestCase
         $this->assertEquals('8', $expense->category_id);
     }
 
-    public function testShouldDeleteAnExpense()
+    public function test_should_delete_an_expense()
     {
         $this->seed();
 
