@@ -9,11 +9,14 @@ use Tests\TestCase;
 class ExpenseTest extends TestCase
 {
     private array $header;
+    private User $user;
 
     protected function setUp(): void
     {
-        $this->header = ['Accept' => 'application/json'];
         parent::setUp();
+
+        $this->header = ['Accept' => 'application/json'];
+        $this->user = User::factory()->create();
     }
 
     public function test_should_forbid_an_unauthenticated_user_to_create_an_expense()
@@ -24,16 +27,13 @@ class ExpenseTest extends TestCase
             'date' => '2022-02-28',
         ];
 
-        $response = $this->json('POST', 'api/expense', $data, $this->header);
-
-        $response->assertUnauthorized();
+        $this->json('POST', 'api/expense', $data, $this->header)
+            ->assertUnauthorized();
     }
 
     public function test_should_allow_an_authenticated_user_to_create_an_expense()
     {
         $this->seed();
-
-        $user = User::factory()->create();
 
         $data = [
             'description' => 'expense test',
@@ -41,17 +41,14 @@ class ExpenseTest extends TestCase
             'date' => '2022-02-28',
         ];
 
-        $response = $this->actingAs($user)
-            ->json('POST', 'api/expense', $data, $this->header);
-
-        $response->assertOk();
+        $this->actingAs($this->user)
+            ->json('POST', 'api/expense', $data, $this->header)
+            ->assertOk();
     }
 
     public function test_should_create_an_expense_with_a_valid_category()
     {
         $this->seed();
-
-        $user = User::factory()->create();
 
         $data = [
             'description' => 'expense test 2',
@@ -60,17 +57,14 @@ class ExpenseTest extends TestCase
             'category' => 1,
         ];
 
-        $response = $this->actingAs($user)
-            ->json('POST', 'api/expense', $data, $this->header);
-
-        $response->assertOk();
+        $this->actingAs($this->user)
+            ->json('POST', 'api/expense', $data, $this->header)
+            ->assertOk();
     }
 
     public function test_should_fail_validation_when_creating_an_expense_with_an_invalid_category()
     {
         $this->seed();
-
-        $user = User::factory()->create();
 
         $data = [
             'description' => 'expense test 3',
@@ -79,17 +73,14 @@ class ExpenseTest extends TestCase
             'category' => 95,
         ];
 
-        $response = $this->actingAs($user)
-            ->json('POST', 'api/expense', $data, $this->header);
-
-        $response->assertUnprocessable();
+        $this->actingAs($this->user)
+            ->json('POST', 'api/expense', $data, $this->header)
+            ->assertUnprocessable();
     }
 
     public function test_should_check_if_the_expense_was_saved_in_database_sucessfully()
     {
         $this->seed();
-
-        $user = User::factory()->create();
 
         $data = [
             'description' => 'expense test 4',
@@ -98,10 +89,10 @@ class ExpenseTest extends TestCase
             'category' => 2,
         ];
 
-        $response = $this->actingAs($user)
-            ->json('POST', 'api/expense', $data, $this->header);
+        $this->actingAs($this->user)
+            ->json('POST', 'api/expense', $data, $this->header)
+            ->assertOk();
 
-        $response->assertOk();
         $this->assertDatabaseHas('expenses', [
             'id' => "1",
             'description' => 'expense test 4',
@@ -113,28 +104,24 @@ class ExpenseTest extends TestCase
 
     public function test_should_show_all_the_expenses_created()
     {
-        $user = User::factory()->createOne();
         Expense::factory()->count(3)->create();
 
-        $response = $this->actingAs($user)
-            ->get(route('expense.index'), $this->header);
+        $this->actingAs($this->user)
+            ->get(route('expense.index'), $this->header)
+            ->assertOk();
 
-        $response->assertOk();
         $this->assertDatabaseCount('expenses', 3);
     }
 
     public function test_should_show_an_expense_created()
     {
-        $user = User::factory()->createOne();
         $expense = Expense::factory()->createOne();
 
-        $response = $this->actingAs($user)
-            ->get(
-                route('expense.show', $expense),
-                $this->header
-            );
+        $this->actingAs($this->user)->get(
+            route('expense.show', $expense),
+            $this->header
+        )->assertOk();
 
-        $response->assertOk();
         $this->assertEquals('Expense test', $expense->description);
         $this->assertEquals('99.95', $expense->amount);
         $this->assertEquals('2022-01-01', $expense->date);
@@ -145,14 +132,14 @@ class ExpenseTest extends TestCase
     {
         $this->seed();
 
-        $user = User::factory()->create();
         $expense = Expense::factory()->createOne();
 
-        $this->actingAs($user)->json('PUT', route('expense.update', $expense), [
-            'description' => 'Update expense test',
-            'amount' => 40,
-            'date' => '2022-03-01',
-        ], ['Content-Type' => 'application/json']);
+        $this->actingAs($this->user)
+            ->json('PUT', route('expense.update', $expense), [
+                'description' => 'Update expense test',
+                'amount' => 40,
+                'date' => '2022-03-01',
+            ], ['Content-Type' => 'application/json']);
 
         $expense->refresh();
 
@@ -166,10 +153,9 @@ class ExpenseTest extends TestCase
     {
         $this->seed();
 
-        $user = User::factory()->createOne();
         $expense = Expense::factory()->createOne();
 
-        $this->actingAs($user)->delete(
+        $this->actingAs($this->user)->delete(
             route('expense.destroy', $expense)
         );
 
