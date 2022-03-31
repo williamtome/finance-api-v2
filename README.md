@@ -77,3 +77,9 @@ https://quiet-ocean-25469.herokuapp.com/
 | GET | `/expense/{id}` | Show the specific expense |
 | PUT | `/expense/{id}` | Update an expense |
 | DELETE | `/expense/{id}` | Delete the expense |
+
+## Tests
+
+```
+vendor/bin/sail artisan test
+``
