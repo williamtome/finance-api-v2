@@ -72,6 +72,6 @@ class ExpenseRepository
 
     public function getByDescription(string $description)
     {
-        return Expense::where('description', $description)->get();
+        return Expense::where('description', 'like', '%' . $description . '%')->get();
     }
 }
