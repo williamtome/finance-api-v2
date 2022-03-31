@@ -61,7 +61,7 @@ https://quiet-ocean-25469.herokuapp.com/
 | Verb | Path | Reason |
 |------|------|--------|
 | GET | `/revenue` | Show all the revenues |
-| GET | `/revenue?descricao=xpto` | Show any revenue with a description |
+| GET | `/revenue?descricao=xpto` | Show any revenue by description |
 | POST | `/revenue` | Create the revenue |
 | GET | `/revenue/{id}` | Show the specific revenue |
 | PUT | `/revenue/{id}` | Update an revenue |
@@ -72,6 +72,7 @@ https://quiet-ocean-25469.herokuapp.com/
 | Verb | Path | Reason |
 |------|------|--------|
 | GET | `/expense` | Show all the expenses |
+| GET | `/expense?descricao=xpto` | Show any expense by description |
 | POST | `/expense` | Create the expense |
 | GET | `/expense/{id}` | Show the specific expense |
 | PUT | `/expense/{id}` | Update an expense |
