@@ -19,10 +19,9 @@ class RevenueController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        return $request->filled('descricao')
+        return $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->getAll();
-
     }
 
     public function store(RevenueRequest $request): void
