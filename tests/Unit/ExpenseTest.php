@@ -128,6 +128,18 @@ class ExpenseTest extends TestCase
         $this->assertEquals('8', $expense->category_id);
     }
 
+    public function test_show_an_expense_by_description()
+    {
+        $expense = Expense::factory()->createOne();
+
+        $this->actingAs($this->user)->get(
+            route('expense.index', ['descricao' => 'Expense test']),
+            $this->header
+        )->assertOk();
+
+        $this->assertEquals('Expense test', $expense->description);
+    }
+
     public function test_should_update_an_expense()
     {
         $this->seed();
