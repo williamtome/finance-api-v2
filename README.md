@@ -54,7 +54,7 @@ https://quiet-ocean-25469.herokuapp.com/
 ```
 * You can consume this API with the REST HTTP Client as [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/) if you don't have a front-end application.
 
-### Endpoints
+### API Reference
 
 * Revenues
 
