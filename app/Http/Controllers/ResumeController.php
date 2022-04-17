@@ -40,12 +40,12 @@ class ResumeController extends Controller
         $finalBalance = $totalOfRevenues - $totalOfExpenses;
 
         return $this->success([
-            'year' => (int) $year,
-            'month' => (int) $month,
-            'total_revenues_month' => $totalOfRevenues,
-            'total_expenses_month' => $totalOfExpenses,
-            'final_balance' => $finalBalance,
-            'total_expenses_by_category' => $totalExpensesByCategories
+            'ano' => (int) $year,
+            'mes' => (int) $month,
+            'total_de_receitas_mes' => $totalOfRevenues,
+            'total_de_despesas_mes' => $totalOfExpenses,
+            'saldo_final' => $finalBalance,
+            'total_de_receitas_por_categoria' => $totalExpensesByCategories
         ]);
     }
 
