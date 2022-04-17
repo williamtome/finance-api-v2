@@ -3,17 +3,15 @@
 namespace App\Http\Repositories;
 
 use App\Models\Revenue;
-use App\Traits\ApiResponser;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RevenueRepository
 {
-    use ApiResponser;
-
-    public function getAll(): JsonResponse
+    public function getAll(): array
     {
-        return $this->success(Revenue::all());
+        return Revenue::all();
     }
 
     public function create(array $attributes): void
@@ -23,9 +21,7 @@ class RevenueRepository
 
     public function show(int $id)
     {
-        $revenue = Revenue::findOrFail($id);
-
-        return $this->success($revenue);
+        return Revenue::findOrFail($id);
     }
 
     public function update(array $attributes, int $id): void
@@ -40,21 +36,15 @@ class RevenueRepository
         Revenue::destroy($id);
     }
 
-    public function getByDate(string $date): JsonResponse
+    public function getByDate(string $date): Collection
     {
-        $revenues = DB::table('revenues')
+        return DB::table('revenues')
             ->where('date', 'like', $date)
             ->get();
-
-        return $this->success($revenues);
     }
 
     public function getByDescription(string $descricao): JsonResponse
     {
-        $revenues = Revenue::where('description', 'like', '%' . strtolower($descricao) . '%')->get();
-
-        return $revenues
-            ? $this->success($revenues)
-            : $this->error(400, 'Erro ao listar as receitas!');
+        return Revenue::where('description', 'like', '%' . strtolower($descricao) . '%')->get();
     }
 }
