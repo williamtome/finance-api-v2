@@ -6,9 +6,9 @@ use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\ExpenseRepository;
 use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\ResumeRequest;
-use App\Traits\ApiResponser;
+use App\Http\Resources\ExpenseResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ExpenseController extends Controller
 {
@@ -24,13 +24,13 @@ class ExpenseController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection
     {
         $expenses = $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->getAll();
 
-        return $this->success($expenses);
+        return ExpenseResource::collection($expenses);
     }
 
     public function store(ExpenseRequest $request): void
@@ -40,11 +40,11 @@ class ExpenseController extends Controller
         $this->repository->create($request->all());
     }
 
-    public function show(int $id): JsonResponse
+    public function show(int $id): ExpenseResource
     {
         $expense = $this->repository->find($id);
 
-        return $this->success($expense);
+        return ExpenseResource::make($expense);
     }
 
     public function update(ExpenseRequest $request, $id): void
@@ -57,7 +57,7 @@ class ExpenseController extends Controller
         $this->repository->delete($id);
     }
 
-    public function listPerMonth(ResumeRequest $request): JsonResponse
+    public function listPerMonth(ResumeRequest $request): AnonymousResourceCollection
     {
         $filterPatternDate = $this->filterDate(
             $request->route('month'),
@@ -66,7 +66,7 @@ class ExpenseController extends Controller
 
         $expenses = $this->repository->getByDate($filterPatternDate);
 
-        return $this->success($expenses);
+        return ExpenseResource::collection($expenses);
     }
 
     private function filterDate(string $month, string $year): string
