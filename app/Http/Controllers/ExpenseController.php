@@ -12,9 +12,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ExpenseController extends Controller
 {
-    use ApiResponser;
-
-    private $repository;
+    private ExpenseRepository $repository;
+    private CategoryRepository $categoryRepository;
 
     public function __construct(
         ExpenseRepository $repository,
@@ -59,21 +58,12 @@ class ExpenseController extends Controller
 
     public function listPerMonth(ResumeRequest $request): AnonymousResourceCollection
     {
-        $filterPatternDate = $this->filterDate(
-            $request->route('month'),
-            $request->route('year')
-        );
+        $year = $request->route('year');
+        $month = $request->route('month');
 
-        $expenses = $this->repository->getByDate($filterPatternDate);
+        $expenses = $this->repository->getByDate($year, $month);
 
         return ExpenseResource::collection($expenses);
-    }
-
-    private function filterDate(string $month, string $year): string
-    {
-        $month = $month <= 9 ? 0 . $month : $month;
-
-        return $year . '-' . $month . '-%';
     }
 
     private function mergeCategory(Request $request): void
