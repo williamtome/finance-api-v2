@@ -38,21 +38,13 @@ class ExpenseRepository
         Expense::destroy($id);
     }
 
-    public function getByDate(string $date): Collection
+    public function getByDate(string $year, string $month): Collection
     {
-        $expenses = Expense::with('category')
-            ->where('expenses.date', 'like', $date)
-            ->get();
+        $formatDate = $this->formatDate($year, $month);
 
-        return $expenses->each(function ($expense) {
-            return [
-                'id' => $expense->id,
-                'description' => $expense->description,
-                'amount' => (float) $expense->amount,
-                'date' => $expense->date,
-                'category' => $expense->category->name,
-            ];
-        });
+        return Expense::with('category')
+            ->where('expenses.date', 'like', $formatDate)
+            ->get();
     }
 
     public function getByDateAndCategory(string $date): array
@@ -73,5 +65,12 @@ class ExpenseRepository
     public function getByDescription(string $description)
     {
         return Expense::where('description', 'like', '%' . $description . '%')->get();
+    }
+
+    private function formatDate(string $year, string $month): string
+    {
+        $month = $month <= 9 ? 0 . $month : $month;
+
+        return $year . '-' . $month . '-%';
     }
 }
