@@ -83,3 +83,5 @@ https://quiet-ocean-25469.herokuapp.com/
 ```
 vendor/bin/sail artisan test
 ``
+
+Enjoy it!
