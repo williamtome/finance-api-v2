@@ -64,7 +64,7 @@ class ExpenseRepository
 
     public function getByDescription(string $description)
     {
-        return Expense::where('description', 'like', '%' . $description . '%')->get();
+        return Expense::where('description', 'like', '%' . strtolower($description) . '%')->get();
     }
 
     private function formatDate(string $year, string $month): string
