@@ -2,12 +2,14 @@
 
 namespace App\Http\Repositories;
 
+use App\Http\Traits\FormatterDateTrait;
 use App\Models\Revenue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class RevenueRepository
 {
+    use FormatterDateTrait;
+
     public function getAll()
     {
         return Revenue::all();
@@ -47,12 +49,5 @@ class RevenueRepository
     public function getByDescription(string $descricao): Collection
     {
         return Revenue::where('description', 'like', '%' . strtolower($descricao) . '%')->get();
-    }
-
-    private function formatDate(string $year, string $month): string
-    {
-        $month = $month <= 9 ? 0 . $month : $month;
-
-        return $year . '-' . $month . '-%';
     }
 }
