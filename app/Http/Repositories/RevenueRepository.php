@@ -41,9 +41,7 @@ class RevenueRepository
     {
         $formattedDate = $this->formatDate($year, $month);
 
-        return DB::table('revenues')
-            ->where('date', 'like', $formattedDate)
-            ->get();
+        return Revenue::where('date', 'like', $formattedDate)->get();
     }
 
     public function getByDescription(string $descricao): Collection
