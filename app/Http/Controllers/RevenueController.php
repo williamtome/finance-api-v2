@@ -5,23 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
 use App\Http\Requests\RevenueRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Resources\RevenueResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class RevenueController extends Controller
 {
-    private $repository;
+    private RevenueRepository $repository;
 
     public function __construct(RevenueRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return $request->has('descricao')
+        $revenues = $request->has('descricao')
             ? $this->repository->getByDescription($request->descricao)
             : $this->repository->getAll();
+
+        return RevenueResource::collection($revenues);
     }
 
     public function store(RevenueRequest $request): void
@@ -29,9 +32,11 @@ class RevenueController extends Controller
         $this->repository->create($request->all());
     }
 
-    public function show($id): JsonResponse
+    public function show($id): RevenueResource
     {
-        return $this->repository->show($id);
+        $revenue = $this->repository->find($id);
+
+        return RevenueResource::make($revenue);
     }
 
     public function update(Request $request, int $id): void
@@ -44,20 +49,13 @@ class RevenueController extends Controller
         $this->repository->delete($id);
     }
 
-    public function listPerMonth(ResumeRequest $request): JsonResponse
+    public function listPerMonth(ResumeRequest $request): AnonymousResourceCollection
     {
-        $filterPatternDate = $this->filterDate(
-            $request->route('month'),
-            $request->route('year')
-        );
+        $month = $request->route('month');
+        $year = $request->route('year');
 
-        return $this->repository->getByDate($filterPatternDate);
-    }
+        $revenues = $this->repository->getByDate($year, $month);
 
-    private function filterDate(string $month, string $year): string
-    {
-        $month = $month <= 9 ? 0 . $month : $month;
-
-        return $year . '-' . $month . '-%';
+        return RevenueResource::collection($revenues);
     }
 }

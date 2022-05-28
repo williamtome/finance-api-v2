@@ -40,10 +40,10 @@ class ExpenseRepository
 
     public function getByDate(string $year, string $month): Collection
     {
-        $formatDate = $this->formatDate($year, $month);
+        $formattedDate = $this->formatDate($year, $month);
 
         return Expense::with('category')
-            ->where('expenses.date', 'like', $formatDate)
+            ->where('expenses.date', 'like', $formattedDate)
             ->get();
     }
 

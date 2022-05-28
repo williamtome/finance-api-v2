@@ -35,7 +35,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('resume/{year}/{month}', [ResumeController::class, 'show']);
 
-    Route::get('revenue/{year}/{month}', [RevenueController::class, 'listPerMonth']);
+    Route::get('revenue/{year}/{month}', [RevenueController::class, 'listPerMonth'])
+            ->name('revenue.per-month');
     Route::get('expense/{year}/{month}', [ExpenseController::class, 'listPerMonth'])
             ->name('expense.per-month');
 });

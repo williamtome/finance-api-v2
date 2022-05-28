@@ -3,13 +3,12 @@
 namespace App\Http\Repositories;
 
 use App\Models\Revenue;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RevenueRepository
 {
-    public function getAll(): array
+    public function getAll()
     {
         return Revenue::all();
     }
@@ -19,7 +18,7 @@ class RevenueRepository
         Revenue::create($attributes);
     }
 
-    public function show(int $id)
+    public function find(int $id): Revenue
     {
         return Revenue::findOrFail($id);
     }
@@ -36,15 +35,24 @@ class RevenueRepository
         Revenue::destroy($id);
     }
 
-    public function getByDate(string $date): Collection
+    public function getByDate(string $year, string $month): Collection
     {
+        $formattedDate = $this->formatDate($year, $month);
+
         return DB::table('revenues')
-            ->where('date', 'like', $date)
+            ->where('date', 'like', $formattedDate)
             ->get();
     }
 
-    public function getByDescription(string $descricao): JsonResponse
+    public function getByDescription(string $descricao): Collection
     {
         return Revenue::where('description', 'like', '%' . strtolower($descricao) . '%')->get();
+    }
+
+    private function formatDate(string $year, string $month): string
+    {
+        $month = $month <= 9 ? 0 . $month : $month;
+
+        return $year . '-' . $month . '-%';
     }
 }
