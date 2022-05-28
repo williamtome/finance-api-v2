@@ -39,7 +39,7 @@ class ResumeController extends Controller
         $totalOfExpenses = $expenses->sum('amount');
         $finalBalance = $totalOfRevenues - $totalOfExpenses;
 
-        return $this->success([
+        return ResumeResource::make([
             'ano' => (int) $year,
             'mes' => (int) $month,
             'total_de_receitas_mes' => $totalOfRevenues,
