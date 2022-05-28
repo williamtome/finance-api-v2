@@ -2,8 +2,8 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Traits\FormatterDateTrait;
 use App\Models\Revenue;
+use App\Traits\FormatterDateTrait;
 use Illuminate\Support\Collection;
 
 class RevenueRepository
