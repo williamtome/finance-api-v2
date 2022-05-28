@@ -2,12 +2,15 @@
 
 namespace App\Http\Repositories;
 
+use App\Http\Traits\FormatterDateTrait;
 use App\Models\Category;
 use App\Models\Expense;
 use Illuminate\Support\Collection;
 
 class ExpenseRepository
 {
+    use FormatterDateTrait;
+
     public function getAll()
     {
         return Expense::with('category')->get();
@@ -65,12 +68,5 @@ class ExpenseRepository
     public function getByDescription(string $description)
     {
         return Expense::where('description', 'like', '%' . strtolower($description) . '%')->get();
-    }
-
-    private function formatDate(string $year, string $month): string
-    {
-        $month = $month <= 9 ? 0 . $month : $month;
-
-        return $year . '-' . $month . '-%';
     }
 }
