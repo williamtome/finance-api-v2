@@ -2,9 +2,9 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Traits\FormatterDateTrait;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Traits\FormatterDateTrait;
 use Illuminate\Support\Collection;
 
 class ExpenseRepository
@@ -50,10 +50,12 @@ class ExpenseRepository
             ->get();
     }
 
-    public function getByDateAndCategory(string $date): array
+    public function getByDateAndCategory(string $year, string $month): array
     {
-        $totalExpensesByCategories = Category::with(['expenses' => function ($query) use ($date) {
-            return $query->where('date', 'like', $date);
+        $formattedDate = $this->formatDate($year, $month);
+
+        $totalExpensesByCategories = Category::with(['expenses' => function ($query) use ($formattedDate) {
+            return $query->where('date', 'like', $formattedDate);
         }])->get();
 
         return $totalExpensesByCategories->map(function ($category) {
