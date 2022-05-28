@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\ExpenseRepository;
 use App\Http\Repositories\RevenueRepository;
 use App\Http\Requests\ResumeRequest;
-use App\Traits\ApiResponser;
-use Illuminate\Http\JsonResponse;
+use App\Http\Resources\ResumeResource;
+use App\Traits\FormatterDateTrait;
 
 class ResumeController extends Controller
 {
-    use ApiResponser;
+    use FormatterDateTrait;
 
     private RevenueRepository $revenueRepository;
-
     private ExpenseRepository $expenseRepository;
 
     public function __construct(
@@ -24,16 +23,17 @@ class ResumeController extends Controller
         $this->expenseRepository = $expenseRepository;
     }
 
-    public function show(ResumeRequest $request): JsonResponse
+    /**
+     * @throws \Exception
+     */
+    public function show(ResumeRequest $request): ResumeResource
     {
         $year = $request->route('year');
         $month = $request->route('month');
 
-        $filterPatternDate = $this->filterDate($month, $year);
-
-        $revenues = $this->revenueRepository->getByDate($filterPatternDate);
-        $expenses = $this->expenseRepository->getByDate($filterPatternDate);
-        $totalExpensesByCategories = $this->expenseRepository->getByDateAndCategory($filterPatternDate);
+        $revenues = $this->revenueRepository->getByDate($year, $month);
+        $expenses = $this->expenseRepository->getByDate($year, $month);
+        $totalExpensesByCategories = $this->expenseRepository->getByDateAndCategory($year, $month);
 
         $totalOfRevenues = $revenues->sum('amount');
         $totalOfExpenses = $expenses->sum('amount');
@@ -47,12 +47,5 @@ class ResumeController extends Controller
             'saldo_final' => $finalBalance,
             'total_de_receitas_por_categoria' => $totalExpensesByCategories
         ]);
-    }
-
-    private function filterDate(string $month, string $year): string
-    {
-        $month = $month <= 9 ? 0 . $month : $month;
-
-        return $year . '-' . $month . '-%';
     }
 }
