@@ -41,7 +41,7 @@ class ResumeRequest extends FormRequest
         $validYear = $this->year >= 1900 && $this->year <= now()->year;
 
         if ($incorrectYear && !$validYear) {
-            abort(404, 'O ano informado está inválido!');
+            abort(404, 'O ano informado é inválido!');
         }
     }
 
@@ -50,7 +50,7 @@ class ResumeRequest extends FormRequest
         $monthIsInRange = (int) $this->month >= 1 && (int) $this->month <= 12;
 
         if ($monthIsInRange === false) {
-            abort(404, 'O mês informado está inválido!');
+            abort(404, 'O mês informado é inválido!');
         }
     }
 }
