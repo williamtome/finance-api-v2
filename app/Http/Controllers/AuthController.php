@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\AuthResource;
 use App\Models\User;
-use App\Traits\ApiResponser;
-use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    use ApiResponser;
-
-    public function register(UserRequest $request): JsonResponse
+    public function register(UserRequest $request): AuthResource
     {
         $user = User::create([
             'name' => $request->name,
@@ -19,7 +16,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return $this->success([
+        return AuthResource::make([
             'token' => $user->createToken('API Token')->plainTextToken
         ]);
     }
