@@ -27,7 +27,7 @@ class ExpenseRequest extends FormRequest
     {
         $sometimes = 'sometimes|filled';
 
-        $data = [
+        $rules = [
             'description' => 'required|string|max:191',
             'amount' => 'required|numeric|min:1',
             'date' => 'required|date|date_format:Y-m-d',
@@ -40,12 +40,12 @@ class ExpenseRequest extends FormRequest
         ];
 
         if ($this->method() == 'PUT') {
-            $data['description'] = $sometimes . '|string|max:191';
-            $data['amount'] = $sometimes . '|numeric|min:1';
-            $data['date'] = $sometimes . '|date|date_format:Y-m-d';
+            $rules['description'] = $sometimes . '|string|max:191';
+            $rules['amount'] = $sometimes . '|numeric|min:1';
+            $rules['date'] = $sometimes . '|date|date_format:Y-m-d';
         }
 
-        return $data;
+        return $rules;
     }
 
     private function categoryIsValid()
