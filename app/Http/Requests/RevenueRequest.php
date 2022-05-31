@@ -24,10 +24,20 @@ class RevenueRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $sometimes = 'sometimes|filled';
+
+        $rules = [
             'description' => 'required|string|max:191',
-            'amount' => 'required|numeric',
-            'date' => 'required|date'
+            'amount' => 'required|numeric|min:1',
+            'date' => 'required|date_format:Y-m-d'
         ];
+
+        if ($this->method() === 'PUT') {
+            $rules['description'] = $sometimes . '|string|max:191';
+            $rules['amount'] = $sometimes . '|numeric|min:1';
+            $rules['date'] = $sometimes . '|date_format:Y-m-d';
+        }
+
+        return $rules;
     }
 }
