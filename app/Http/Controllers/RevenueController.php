@@ -39,7 +39,7 @@ class RevenueController extends Controller
         return RevenueResource::make($revenue);
     }
 
-    public function update(Request $request, int $id): void
+    public function update(RevenueRequest $request, int $id): void
     {
         $this->repository->update($request->all(), $id);
     }
