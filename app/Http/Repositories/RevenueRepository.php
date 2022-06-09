@@ -37,6 +37,9 @@ class RevenueRepository
         Revenue::destroy($id);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getByDate(string $year, string $month): Collection
     {
         $formattedDate = $this->formatDate($year, $month);

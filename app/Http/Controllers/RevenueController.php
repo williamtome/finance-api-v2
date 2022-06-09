@@ -49,6 +49,9 @@ class RevenueController extends Controller
         $this->repository->delete($id);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function listPerMonth(ResumeRequest $request): AnonymousResourceCollection
     {
         $month = $request->route('month');

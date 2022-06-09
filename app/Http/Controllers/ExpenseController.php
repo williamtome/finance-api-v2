@@ -56,6 +56,9 @@ class ExpenseController extends Controller
         $this->repository->delete($id);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function listPerMonth(ResumeRequest $request): AnonymousResourceCollection
     {
         $year = $request->route('year');
